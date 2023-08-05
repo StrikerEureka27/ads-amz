@@ -12,16 +12,13 @@ import java.util.Set;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.commons.math3.analysis.function.Log;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellReference;
-import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -63,7 +60,6 @@ public class MyRouteBuilder extends RouteBuilder {
                                     && !cell.getStringCellValue().equals("Entity")) {
                                 filterStepOne.add(Integer.valueOf(cell.getRowIndex()));
                             }
-
                         }
 
                         if (ref.formatAsString().substring(0, 2).equals("AH")) {
