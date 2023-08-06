@@ -12,6 +12,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name = "repository")
@@ -24,8 +26,9 @@ public class Adsfile implements Serializable {
     private String name;
     @Column(name = "processed")
     private boolean isProcessed;
-    @CreatedDate
-    @Column(name = "created_at")
+    
+    @Column(name = "created_at", insertable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
     @Column(name = "file", columnDefinition = "BLOB")
     private byte[] file;
@@ -52,6 +55,9 @@ public class Adsfile implements Serializable {
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
+        if(createdAt==null){
+            this.createdAt = null;
+        }
         this.createdAt = createdAt;
     }
 

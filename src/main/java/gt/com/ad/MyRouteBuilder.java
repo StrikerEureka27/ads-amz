@@ -2,7 +2,6 @@ package gt.com.ad;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,16 +15,12 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellReference;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import gt.com.ad.data.Adsfile;
-import gt.com.ad.service.IAdsFileService;
+import java.io.ByteArrayOutputStream;
 
 @Component
 public class MyRouteBuilder extends RouteBuilder {
-
-    @Autowired
-    IAdsFileService amzadsservices;
 
     @Override
     public void configure() throws Exception {
@@ -36,12 +31,12 @@ public class MyRouteBuilder extends RouteBuilder {
                     public void process(Exchange exchange) throws Exception {
 
                         Adsfile f = exchange.getIn().getBody(Adsfile.class);
-
                         File tmp = File.createTempFile(f.getName(), ".xlsx");
+                        FileOutputStream fos = new FileOutputStream(tmp);
 
                         try {
-                            FileOutputStream fos = new FileOutputStream(tmp);
                             fos.write(f.getFile());
+                            tmp.delete();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -57,7 +52,7 @@ public class MyRouteBuilder extends RouteBuilder {
 
                         String refClick = "";
                         String refOrder = "";
-                        
+
                         // Filtering worbook
                         for (Row row : sheet1) {
                             for (Cell cell : row) {
@@ -173,17 +168,22 @@ public class MyRouteBuilder extends RouteBuilder {
 
                         // Saving workbook
                         try {
-                            OutputStream fileOut = new FileOutputStream("C://Users//striker//Documents//repository//workbook.xlsx");
-                            fileOut.write(f.getFile());
-                            wb.write(fileOut);
-                            fileOut.close();
+                            ByteArrayOutputStream executionTmpFile = new ByteArrayOutputStream();
+                            wb.write(executionTmpFile);
+                            f.setFile(executionTmpFile.toByteArray());
+                            f.setProcessed(true);
+                            f.setStep(2);
+                            exchange.getIn().setHeader("log", "File processed successfully.");
+                            executionTmpFile.close();
                             wb.close();
                         } catch (Exception e) {
+                            exchange.getIn().setHeader("log","Something go wrong processing file.");
                             e.printStackTrace();
                         }
 
                     }
-                }).to("jpa://gt.com.ad.data.Adsfile?resultClass=gt.com.ad.data.Adsfile&nativeQuery=update repository set step = 3, processed = 1 where step = 1");
+                })
+                .toD("jpa://gt.com.ad.data.AdsLog?resultClass=gt.com.ad.data.AdsLog&nativeQuery=insert into log (message) values ('${header.log}')");
     }
 
 }
