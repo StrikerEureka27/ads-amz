@@ -6,5 +6,7 @@ import gt.com.ad.data.Adsfile;
 
 public interface IAdsFileService {
     public Iterable<Adsfile> getAllAdsFile();
-    public String saveAdsFile(MultipartFile request);
+    public String saveAdsFile(MultipartFile request, boolean processed);
+    public byte[] downloadAdsFile(int fileName);
+    public void saveSimpleAdsFile(Adsfile f);
 }
