@@ -9,4 +9,5 @@ public interface IAdsFileService {
     public String saveAdsFile(MultipartFile request, boolean processed);
     public byte[] downloadAdsFile(int fileName);
     public void saveSimpleAdsFile(Adsfile f);
+    public String findFileById(int id);
 }

@@ -9,13 +9,17 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import gt.com.ad.data.AdsLog;
 import gt.com.ad.data.Adsfile;
 import gt.com.ad.service.AdsFileService;
+import gt.com.ad.service.AdsLogService;
 
 @RestController
 @CrossOrigin("*")
@@ -25,6 +29,9 @@ public class AdsFileController {
     @Autowired
     AdsFileService adsamzservice;
 
+    @Autowired
+    AdsLogService adsamzservicelog;
+
     @GetMapping("/all")
     public Iterable<Adsfile> getAllAdsFile(){
         return adsamzservice.getAllAdsFile();
@@ -33,6 +40,12 @@ public class AdsFileController {
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("processed") boolean processed){
         String response = adsamzservice.saveAdsFile(file, processed);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PutMapping("/step/{id}")
+    public ResponseEntity<String> updateStep(@PathVariable int id){
+        String response = adsamzservice.findFileById(id);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -49,6 +62,12 @@ public class AdsFileController {
                 )
                 .body(response);
     }
+
+    @GetMapping("/log/all")
+    public Iterable<AdsLog> getAllAdsLog(){
+        return adsamzservicelog.getAllLogs();
+    }
+
 }
     
 

@@ -2,6 +2,7 @@ package gt.com.ad.service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.apache.poi.ss.formula.functions.Now;
 import org.hibernate.type.descriptor.java.LocalDateTimeJavaType;
@@ -50,6 +51,18 @@ public class AdsFileService implements IAdsFileService {
     @Override
     public void saveSimpleAdsFile(Adsfile f) {
         adsfile.save(f);
+    }
+
+    @Override
+    public String findFileById(int id) {
+        Optional<Adsfile> f = adsfile.findById(id);
+        if(f.isPresent()){
+            f.get().setStep(1);
+            adsfile.save(f.get());
+            return String.format("File %s updated successfully.", f.get().getName());
+        }else{
+            return String.format("Error updating file %s .", f.get().getName());
+        }
     }
 
 
