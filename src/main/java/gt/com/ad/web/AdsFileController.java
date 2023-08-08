@@ -32,24 +32,27 @@ public class AdsFileController {
     AdsLogService adsamzservicelog;
 
     @GetMapping("/all")
-    public Iterable<Adsfile> getAllAdsFile(){
-        return adsamzservice.getAllAdsFile();
+    public Iterable<Adsfile> getAllAdsFile() {
+        Iterable<Adsfile> fs = adsamzservice.getAllAdsFile();
+        fs.forEach((e) -> e.setFile(null));
+        return fs;
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("processed") boolean processed){
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file,
+            @RequestParam("processed") boolean processed) {
         String response = adsamzservice.saveAdsFile(file, processed);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PutMapping("/step/{id}")
-    public ResponseEntity<String> updateStep(@PathVariable int id){
+    public ResponseEntity<String> updateStep(@PathVariable int id) {
         String response = adsamzservice.findFileById(id);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PostMapping("/delete/{id}")
-    public ResponseEntity<String> deleteFile(@PathVariable int id){
+    public ResponseEntity<String> deleteFile(@PathVariable int id) {
         return ResponseEntity.status(HttpStatus.OK).body(adsamzservice.deleteFileById(id));
     }
 
@@ -62,16 +65,13 @@ public class AdsFileController {
                 .contentType(MediaType.parseMediaType("application/xlsx"))
                 .header(
                         HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment; filename=\"" + id + "\""
-                )
+                        "attachment; filename=\"" + id + "\"")
                 .body(response);
     }
 
     @GetMapping("/log/all")
-    public Iterable<AdsLog> getAllAdsLog(){
+    public Iterable<AdsLog> getAllAdsLog() {
         return adsamzservicelog.getAllLogs();
     }
 
 }
-    
-
