@@ -10,4 +10,5 @@ public interface IAdsFileService {
     public byte[] downloadAdsFile(int fileName);
     public void saveSimpleAdsFile(Adsfile f);
     public String findFileById(int id);
+    public String deleteFileById(int id);
 }

@@ -11,14 +11,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import gt.com.ad.data.AdsLog;
 import gt.com.ad.data.Adsfile;
 import gt.com.ad.data.IAdsfileDao;
+import gt.com.ad.data.IAdslogDao;
 
 @Service
 public class AdsFileService implements IAdsFileService {
 
     @Autowired
     IAdsfileDao adsfile;
+
+    @Autowired
+    IAdslogDao adslog;
 
     @Override
     public Iterable<Adsfile> getAllAdsFile() {
@@ -34,10 +39,18 @@ public class AdsFileService implements IAdsFileService {
             f.setFile(request.getBytes());
             f.setProcessed(processed);
             adsfile.save(f);
-            return String.format("File %s saved successfully.", fileName);
+            String response = String.format("File %d loaded successfully.", f.getId());
+            AdsLog l = new AdsLog();
+            l.setMessage(response);
+            adslog.save(l);
+            return response;
         } catch (IOException ex) {
             ex.printStackTrace();
-            return String.format("Error saving the file %s.", fileName);
+            String response = String.format("Error saving the file.");
+            AdsLog l = new AdsLog();
+            l.setMessage(response);
+            adslog.save(l);
+            return response;
         }
 
     }
@@ -63,6 +76,17 @@ public class AdsFileService implements IAdsFileService {
         }else{
             return String.format("Error updating file %s .", f.get().getName());
         }
+    }
+
+    @Override
+    public String deleteFileById(int id) {
+        Adsfile f = adsfile.readFileById(id);
+        adsfile.delete(f);
+        AdsLog l = new AdsLog();
+        String response = String.format("File %d deleted successfully.", f.getId());
+        l.setMessage(response);
+        adslog.save(l);
+        return response;
     }
 
 

@@ -52,6 +52,7 @@ public class MyRouteBuilder extends RouteBuilder {
 
                         String refClick = "";
                         String refOrder = "";
+                        String refBid = "";
 
                         // Filtering worbook
                         for (Row row : sheet1) {
@@ -67,6 +68,15 @@ public class MyRouteBuilder extends RouteBuilder {
                                     refOrder = ref.formatAsString().toString();
                                 }
 
+                                if (ref.formatAsString().substring(0, 2).equals("AB")) {
+                                    refBid = ref.formatAsString().toString();
+                                }
+
+                                if (ref.formatAsString().substring(0, 1).equals("C") && row.getRowNum()!=0) {
+                                    cell.setBlank();
+                                    cell.setCellValue("Update");
+                                }
+
                                 if (ref.formatAsString().substring(0, 1).equals("B")) {
                                     if (!cell.getStringCellValue().equals("Keyword")
                                             && !cell.getStringCellValue().equals("Product Targeting")
@@ -74,6 +84,7 @@ public class MyRouteBuilder extends RouteBuilder {
                                         filterStepOne.add(Integer.valueOf(cell.getRowIndex()));
                                     }
                                 }
+
 
                                 if (ref.formatAsString().substring(0, 2).equals("AH")) {
 
@@ -109,7 +120,7 @@ public class MyRouteBuilder extends RouteBuilder {
                                 if (row.getCell(37) != null || row.getCell(41) != null) {
                                     var res = row.getCell(36).getNumericCellValue() /
                                             row.getCell(40).getNumericCellValue();
-                                    log.info(String.format("row index %d res : %f", row.getRowNum(), res));
+                                    //log.info(String.format("row index %d res : %f", row.getRowNum(), res));
                                     if (res <= 0.067) {
                                         filterStepFive.add(Integer.valueOf(row.getRowNum()));
                                     }
@@ -117,11 +128,27 @@ public class MyRouteBuilder extends RouteBuilder {
                             }
 
                             if (row.getRowNum() == 0) {
-                                row.createCell(row.getLastCellNum() + 1,
-                                        CellType.STRING).setCellValue("CVR");
+                                row.createCell(row.getLastCellNum(),CellType.STRING).setCellValue("CVR");
                             } else {
-                                row.createCell(row.getLastCellNum() + 1, CellType.FORMULA)
-                                        .setCellFormula(String.format("%s/%s", refClick, refOrder));
+                                row.createCell(row.getLastCellNum() , CellType.FORMULA).setCellFormula(String.format("%s/%s", refOrder, refClick));
+                            }
+
+                            if (row.getRowNum() == 0) {
+                                row.createCell(row.getLastCellNum() ,CellType.STRING).setCellValue("Previous Bid");
+                            } else {
+                                row.createCell(row.getLastCellNum(), CellType.FORMULA).setCellFormula(String.format("%s", refBid));
+                            }
+
+                            if (row.getRowNum() == 0) {
+                                row.createCell(row.getLastCellNum(),CellType.STRING).setCellValue("New Bid");
+                            } else {
+                                row.createCell(row.getLastCellNum(), CellType.FORMULA).setCellFormula(String.format("%s*1.20", refBid));
+                            }
+
+                            if (row.getRowNum() == 0) {
+                                row.createCell(row.getLastCellNum(),CellType.STRING).setCellValue("Bid Change");
+                            } else {
+                                row.createCell(row.getLastCellNum(), CellType.FORMULA).setCellFormula(String.format("((%s*1.20)-%s)/2", refBid, refBid));
                             }
 
                         }
@@ -129,7 +156,6 @@ public class MyRouteBuilder extends RouteBuilder {
                         for (Integer r : filterStepOne) {
                             Row row = sheet1.getRow(r);
                             if (row != null) {
-                                log.info("filterStepOne index delete: " + r);
                                 sheet1.removeRow(row);
                             }
                         }
@@ -137,7 +163,6 @@ public class MyRouteBuilder extends RouteBuilder {
                         for (Integer r : filterStepTwo) {
                             Row row = sheet1.getRow(r);
                             if (row != null) {
-                                log.info("filterStepTwo index delete: " + r);
                                 sheet1.removeRow(row);
                             }
                         }
@@ -145,7 +170,6 @@ public class MyRouteBuilder extends RouteBuilder {
                         for (Integer r : filterStepTree) {
                             Row row = sheet1.getRow(r);
                             if (row != null) {
-                                log.info("filterStepTree index delete: " + r);
                                 sheet1.removeRow(row);
                             }
                         }
@@ -153,7 +177,6 @@ public class MyRouteBuilder extends RouteBuilder {
                         for (Integer r : filterStepFour) {
                             Row row = sheet1.getRow(r);
                             if (row != null) {
-                                log.info("filterStepTFour index delete: " + r);
                                 sheet1.removeRow(row);
                             }
                         }
@@ -161,7 +184,6 @@ public class MyRouteBuilder extends RouteBuilder {
                         for (Integer r : filterStepFive) {
                             Row row = sheet1.getRow(r);
                             if (row != null) {
-                                log.info("filterStepTFive index delete: " + r);
                                 sheet1.removeRow(row);
                             }
                         }
@@ -173,7 +195,8 @@ public class MyRouteBuilder extends RouteBuilder {
                             f.setFile(executionTmpFile.toByteArray());
                             f.setProcessed(true);
                             f.setStep(2);
-                            exchange.getIn().setHeader("log", "File processed successfully.");
+                            String header = String.format("File %d processed successfully.", f.getId());
+                            exchange.getIn().setHeader("log", header);
                             executionTmpFile.close();
                             wb.close();
                         } catch (Exception e) {

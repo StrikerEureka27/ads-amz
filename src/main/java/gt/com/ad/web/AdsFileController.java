@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,6 +46,11 @@ public class AdsFileController {
     public ResponseEntity<String> updateStep(@PathVariable int id){
         String response = adsamzservice.findFileById(id);
         return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PostMapping("/delete/{id}")
+    public ResponseEntity<String> deleteFile(@PathVariable int id){
+        return ResponseEntity.status(HttpStatus.OK).body(adsamzservice.deleteFileById(id));
     }
 
     @GetMapping("/download/{id}")
