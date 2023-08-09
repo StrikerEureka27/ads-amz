@@ -89,5 +89,19 @@ public class AdsFileService implements IAdsFileService {
         return response;
     }
 
+    @Override
+    public boolean isFileProcessed(int id) {
+        Optional<Adsfile> f = adsfile.findById(id);
+        if(f.isPresent()){
+           if(f.get().isProcessed() && f.get().getStep() == 2){
+            return f.get().isProcessed();
+           }else{
+            return false;
+           }
+        }else{
+            return false;
+        }
+    }
+
 
 }

@@ -11,4 +11,5 @@ public interface IAdsFileService {
     public void saveSimpleAdsFile(Adsfile f);
     public String findFileById(int id);
     public String deleteFileById(int id);
+    public boolean isFileProcessed(int id);
 }

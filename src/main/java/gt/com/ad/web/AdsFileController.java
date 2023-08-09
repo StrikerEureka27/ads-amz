@@ -1,5 +1,7 @@
 package gt.com.ad.web;
 
+import java.util.concurrent.CompletableFuture;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -48,6 +50,12 @@ public class AdsFileController {
     @PutMapping("/step/{id}")
     public ResponseEntity<String> updateStep(@PathVariable int id) {
         String response = adsamzservice.findFileById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+    
+    @GetMapping("/processed/{id}")
+    public ResponseEntity<Boolean> isProcessed(@PathVariable int id){
+        boolean response = adsamzservice.isFileProcessed(id);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
