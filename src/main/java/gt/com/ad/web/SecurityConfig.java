@@ -1,14 +1,15 @@
 package gt.com.ad.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -35,6 +36,9 @@ import java.security.interfaces.RSAPublicKey;
 @EnableWebSecurity
 public class SecurityConfig {
 
+	@Autowired
+	UserDetailsService userDetailsService;
+
 	@Value("${jwt.public.key}")
 	RSAPublicKey key;
 
@@ -45,31 +49,29 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 				.authorizeHttpRequests((authorize) -> authorize
-						.anyRequest().authenticated()
+						.requestMatchers("/adsamz/**").hasAnyRole("ADMIN", "USER", "VIEW").anyRequest().authenticated()
 				)
 				.csrf((csrf) -> csrf.ignoringRequestMatchers("/token"))
 				.httpBasic(withDefaults())
-				.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+				.oauth2ResourceServer((oauth2)-> oauth2.jwt(Customizer.withDefaults()))
 				.sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.exceptionHandling((exceptions) -> exceptions
 						.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
 						.accessDeniedHandler(new BearerTokenAccessDeniedHandler())
 				);
-		// @formatter:on
 		return http.build();
 	}
 
-	@Bean
-	UserDetailsService users() {
-		// @formatter:off
-		return new InMemoryUserDetailsManager(
-			User.withUsername("user")
-				.password("{noop}password")
-				.authorities("app")
-				.build()
-		);
-		// @formatter:on
-	}
+	// @Bean
+	// UserDetailsService users() {
+	// 	return new InMemoryUserDetailsManager(
+	// 		User.withUsername("user")
+	// 			.password("{noop}password")
+	// 			.roles("ADMIN")
+	// 			.authorities("app")
+	// 			.build()
+	// 	);
+	// }
 
 	@Bean
 	JwtDecoder jwtDecoder() {
