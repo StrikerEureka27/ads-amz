@@ -18,9 +18,7 @@ import gt.com.ad.data.AdmRol;
 import gt.com.ad.data.AdmUser;
 import gt.com.ad.data.IAdmUserDao;
 import jakarta.transaction.Transactional;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service("userDetailsService")
 public class IUserDetailsService implements UserDetailsService {
 

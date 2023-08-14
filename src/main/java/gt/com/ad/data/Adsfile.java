@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import org.apache.camel.component.jpa.Consumed;
-import org.springframework.data.annotation.CreatedDate;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

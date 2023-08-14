@@ -7,9 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -17,7 +15,6 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.nimbusds.jose.jwk.JWK;
@@ -49,9 +46,9 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 				.authorizeHttpRequests((authorize) -> authorize
-						.requestMatchers("/adsamz/**").hasAnyRole("ADMIN", "USER", "VIEW").anyRequest().authenticated()
+						.requestMatchers("/adsamz-api/**").hasAnyRole("ADMIN", "USER", "VIEW").anyRequest().authenticated()
 				)
-				.csrf((csrf) -> csrf.ignoringRequestMatchers("/token"))
+				.csrf((csrf) -> csrf.ignoringRequestMatchers("/adsamz-security/**"))
 				.httpBasic(withDefaults())
 				.oauth2ResourceServer((oauth2)-> oauth2.jwt(Customizer.withDefaults()))
 				.sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -61,17 +58,6 @@ public class SecurityConfig {
 				);
 		return http.build();
 	}
-
-	// @Bean
-	// UserDetailsService users() {
-	// 	return new InMemoryUserDetailsManager(
-	// 		User.withUsername("user")
-	// 			.password("{noop}password")
-	// 			.roles("ADMIN")
-	// 			.authorities("app")
-	// 			.build()
-	// 	);
-	// }
 
 	@Bean
 	JwtDecoder jwtDecoder() {
