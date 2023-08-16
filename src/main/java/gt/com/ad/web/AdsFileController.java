@@ -5,8 +5,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,12 +19,11 @@ import gt.com.ad.data.AdsLog;
 import gt.com.ad.data.Adsfile;
 import gt.com.ad.service.AdsFileService;
 import gt.com.ad.service.AdsLogService;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/adsamz")
+@RequestMapping("/amz-api-private")
 public class AdsFileController {
 
     @Autowired
@@ -37,12 +34,6 @@ public class AdsFileController {
 
     @GetMapping("/all")
     public Iterable<Adsfile> getAllAdsFile() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        
-        log.info("User data: " + auth.getPrincipal());
-        log.info("User rol: " + auth.getAuthorities());
-        log.info("Is auth?: " + auth.isAuthenticated());
-
         Iterable<Adsfile> fs = adsamzservice.getAllAdsFile();
         fs.forEach((e) -> e.setFile(null));
         return fs;

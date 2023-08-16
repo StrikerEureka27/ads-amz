@@ -1,74 +1,54 @@
 package gt.com.ad.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
+
+import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
+import org.springframework.security.oauth2.core.OAuth2TokenValidator;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.JwtDecoders;
+import org.springframework.security.oauth2.jwt.JwtValidators;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
-import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
-import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
+
 import org.springframework.security.web.SecurityFilterChain;
-
-import com.nimbusds.jose.jwk.JWK;
-import com.nimbusds.jose.jwk.JWKSet;
-import com.nimbusds.jose.jwk.RSAKey;
-import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
-import com.nimbusds.jose.jwk.source.JWKSource;
-import com.nimbusds.jose.proc.SecurityContext;
-
-import static org.springframework.security.config.Customizer.withDefaults;
-
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-	@Autowired
-	UserDetailsService userDetailsService;
+	@Value("${auth0.audiences}")
+	private String audience;
 
-	@Value("${jwt.public.key}")
-	RSAPublicKey key;
-
-	@Value("${jwt.private.key}")
-	RSAPrivateKey priv;
+	@Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
+	private String issuer;
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 				.authorizeHttpRequests((authorize) -> authorize
-						.requestMatchers("/adsamz-api/**").hasAnyRole("ADMIN", "USER", "VIEW").anyRequest().authenticated()
-				)
-				.csrf((csrf) -> csrf.ignoringRequestMatchers("/adsamz-security/**"))
-				.httpBasic(withDefaults())
-				.oauth2ResourceServer((oauth2)-> oauth2.jwt(Customizer.withDefaults()))
-				.sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.exceptionHandling((exceptions) -> exceptions
-						.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-						.accessDeniedHandler(new BearerTokenAccessDeniedHandler())
-				);//
+						.requestMatchers("/amz-api-public/**").permitAll()
+						.requestMatchers("/amz-api-private/**").hasAuthority("SCOPE_private").anyRequest()
+						.authenticated())
+				.oauth2ResourceServer(
+						(oauth2ResourceServer) -> oauth2ResourceServer.jwt(jwt -> jwt.decoder(jwtDecoder())));
+
 		return http.build();
 	}
 
 	@Bean
 	JwtDecoder jwtDecoder() {
-		return NimbusJwtDecoder.withPublicKey(this.key).build();
-	}
+		NimbusJwtDecoder jwtDecoder = (NimbusJwtDecoder) JwtDecoders.fromOidcIssuerLocation(issuer);
+		OAuth2TokenValidator<Jwt> audienceValidator = new AudienceValidator(audience);
+		OAuth2TokenValidator<Jwt> withIssuer = JwtValidators.createDefaultWithIssuer(issuer);
+		OAuth2TokenValidator<Jwt> withAudience = new DelegatingOAuth2TokenValidator<>(withIssuer, audienceValidator);
+		jwtDecoder.setJwtValidator(withAudience);
 
-	@Bean
-	JwtEncoder jwtEncoder() {
-		JWK jwk = new RSAKey.Builder(this.key).privateKey(this.priv).build();
-		JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
-		return new NimbusJwtEncoder(jwks);
+		return jwtDecoder;
 	}
 
 }
