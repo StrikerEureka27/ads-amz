@@ -148,7 +148,7 @@ public class MyRouteBuilder extends RouteBuilder {
                             if (row.getRowNum() == 0) {
                                 row.createCell(row.getLastCellNum(),CellType.STRING).setCellValue("Bid Change");
                             } else {
-                                row.createCell(row.getLastCellNum(), CellType.FORMULA).setCellFormula(String.format("((%s*1.20)-%s)/2", refBid, refBid));
+                                row.createCell(row.getLastCellNum(), CellType.FORMULA).setCellFormula(String.format("((%s*1.20)-%s)/%s", refBid, refBid, refBid));
                             }
 
                         }
