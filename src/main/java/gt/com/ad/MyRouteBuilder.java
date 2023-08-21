@@ -72,7 +72,7 @@ public class MyRouteBuilder extends RouteBuilder {
                                     refBid = ref.formatAsString().toString();
                                 }
 
-                                if (ref.formatAsString().substring(0, 1).equals("C") && row.getRowNum()!=0) {
+                                if (ref.formatAsString().substring(0, 1).equals("C") && row.getRowNum() != 0) {
                                     cell.setBlank();
                                     cell.setCellValue("Update");
                                 }
@@ -84,7 +84,6 @@ public class MyRouteBuilder extends RouteBuilder {
                                         filterStepOne.add(Integer.valueOf(cell.getRowIndex()));
                                     }
                                 }
-
 
                                 if (ref.formatAsString().substring(0, 2).equals("AH")) {
 
@@ -120,7 +119,7 @@ public class MyRouteBuilder extends RouteBuilder {
                                 if (row.getCell(37) != null || row.getCell(41) != null) {
                                     var res = row.getCell(36).getNumericCellValue() /
                                             row.getCell(40).getNumericCellValue();
-                                    //log.info(String.format("row index %d res : %f", row.getRowNum(), res));
+                                    // log.info(String.format("row index %d res : %f", row.getRowNum(), res));
                                     if (res <= 0.067) {
                                         filterStepFive.add(Integer.valueOf(row.getRowNum()));
                                     }
@@ -128,27 +127,31 @@ public class MyRouteBuilder extends RouteBuilder {
                             }
 
                             if (row.getRowNum() == 0) {
-                                row.createCell(row.getLastCellNum(),CellType.STRING).setCellValue("CVR");
+                                row.createCell(row.getLastCellNum(), CellType.STRING).setCellValue("CVR");
                             } else {
-                                row.createCell(row.getLastCellNum() , CellType.FORMULA).setCellFormula(String.format("%s/%s", refOrder, refClick));
+                                row.createCell(row.getLastCellNum(), CellType.FORMULA)
+                                        .setCellFormula(String.format("%s/%s", refOrder, refClick));
                             }
 
                             if (row.getRowNum() == 0) {
-                                row.createCell(row.getLastCellNum() ,CellType.STRING).setCellValue("Previous Bid");
+                                row.createCell(row.getLastCellNum(), CellType.STRING).setCellValue("Previous Bid");
                             } else {
-                                row.createCell(row.getLastCellNum(), CellType.FORMULA).setCellFormula(String.format("%s", refBid));
+                                row.createCell(row.getLastCellNum(), CellType.FORMULA)
+                                        .setCellFormula(String.format("%s", refBid));
                             }
 
                             if (row.getRowNum() == 0) {
-                                row.createCell(row.getLastCellNum(),CellType.STRING).setCellValue("New Bid");
+                                row.createCell(row.getLastCellNum(), CellType.STRING).setCellValue("New Bid");
                             } else {
-                                row.createCell(row.getLastCellNum(), CellType.FORMULA).setCellFormula(String.format("%s*1.20", refBid));
+                                row.createCell(row.getLastCellNum(), CellType.FORMULA)
+                                        .setCellFormula(String.format("%s*1.20", refBid));
                             }
 
                             if (row.getRowNum() == 0) {
-                                row.createCell(row.getLastCellNum(),CellType.STRING).setCellValue("Bid Change");
+                                row.createCell(row.getLastCellNum(), CellType.STRING).setCellValue("Bid Change");
                             } else {
-                                row.createCell(row.getLastCellNum(), CellType.FORMULA).setCellFormula(String.format("((%s*1.20)-%s)/%s", refBid, refBid, refBid));
+                                row.createCell(row.getLastCellNum(), CellType.FORMULA)
+                                        .setCellFormula(String.format("((%s*1.20)-%s)/%s", refBid, refBid, refBid));
                             }
 
                         }
@@ -200,7 +203,7 @@ public class MyRouteBuilder extends RouteBuilder {
                             executionTmpFile.close();
                             wb.close();
                         } catch (Exception e) {
-                            exchange.getIn().setHeader("log","Something go wrong processing file.");
+                            exchange.getIn().setHeader("log", "Something go wrong processing file.");
                             e.printStackTrace();
                         }
 
