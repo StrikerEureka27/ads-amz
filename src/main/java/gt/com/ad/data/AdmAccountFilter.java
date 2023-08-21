@@ -9,38 +9,39 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-@Entity
-@Table(name = "adm_user_rol")
-public class AdmUserRol implements Serializable {
 
+@Entity
+@Table(name = "adm_account_filter")
+public class AdmAccountFilter implements Serializable{
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "user")
-    private AdmUser user;
-    @Column(name = "rol")
-    private AdmRol rol;
-    
+    @Column(name = "account")
+    private AdmAccount account;
+    @Column(name = "filter")
+    private AdmFilter filter;
     public int getId() {
         return id;
     }
     public void setId(int id) {
         this.id = id;
     }
-    public AdmUser getUser() {
-        return user;
+    public AdmAccount getAccount() {
+        return account;
     }
-    public void setUser(AdmUser user) {
-        this.user = user;
+    public void setAccount(AdmAccount account) {
+        this.account = account;
     }
-    public AdmRol getRol() {
-        return rol;
+    public AdmFilter getFilter() {
+        return filter;
     }
-    public void setRol(AdmRol rol) {
-        this.rol = rol;
+    public void setFilter(AdmFilter filter) {
+        this.filter = filter;
     }
 
     
+
 
 }
