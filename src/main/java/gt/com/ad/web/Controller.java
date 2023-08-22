@@ -1,7 +1,5 @@
 package gt.com.ad.web;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,13 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import gt.com.ad.data.AdmAccount;
-import gt.com.ad.data.AdmAccountFilter;
 import gt.com.ad.data.AdmFilter;
-import gt.com.ad.data.AdsLog;
+import gt.com.ad.data.AdmParameter;
 import gt.com.ad.data.KrnRepository;
 import gt.com.ad.data.Log;
 import gt.com.ad.service.AdmAccountService;
 import gt.com.ad.service.AdmFilterService;
+import gt.com.ad.service.AdmParameterService;
 import gt.com.ad.service.KrnRepositoryService;
 import gt.com.ad.service.LogService;
 
@@ -42,6 +40,9 @@ public class Controller {
 
     @Autowired
     AdmFilterService filterservice;
+
+    @Autowired
+    AdmParameterService paramservice;
 
     @Autowired
     LogService adsamzservicelog;
@@ -75,7 +76,7 @@ public class Controller {
 
     @GetMapping("/filter/{id}")
     public ResponseEntity<AdmFilter> getFilterById(@PathVariable int id) {
-        return ResponseEntity.status(HttpStatus.OK).body(filterservice.getFilterId(id).get()));
+        return ResponseEntity.status(HttpStatus.OK).body(filterservice.getFilterId(id).get());
     }
 
     @PostMapping("/filter/create")
@@ -88,6 +89,28 @@ public class Controller {
     public ResponseEntity<AdmFilter> updateFilterById(@RequestBody AdmFilter filter) {
         filterservice.updateFilterById(filter);
         return ResponseEntity.status(HttpStatus.OK).body(filter);
+    }
+
+    @GetMapping("/parameters")
+    public ResponseEntity<Iterable<AdmFilter>> getAllParams() {
+        return ResponseEntity.status(HttpStatus.OK).body(filterservice.getAllFilters());
+    }
+
+    @GetMapping("/parameter/{id}")
+    public ResponseEntity<AdmParameter> getParamById(@PathVariable int id) {
+        return ResponseEntity.status(HttpStatus.OK).body(paramservice.getParameterId(id).get());
+    }
+
+    @PostMapping("/parameter/create")
+    public ResponseEntity<AdmParameter> createParameter(@RequestBody AdmParameter parameter) {
+        paramservice.saveParameter(parameter);
+        return ResponseEntity.status(HttpStatus.OK).body(parameter);
+    }
+
+    @PutMapping("/parameters/{id}/update")
+    public ResponseEntity<AdmParameter> updateParameterById(@RequestBody AdmParameter parameter) {
+        paramservice.saveParameter(parameter);
+        return ResponseEntity.status(HttpStatus.OK).body(parameter);
     }
 
     @GetMapping("/files")

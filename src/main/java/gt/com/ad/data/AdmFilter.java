@@ -28,6 +28,8 @@ public class AdmFilter implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
     private boolean active;
+    private String header;
+    private String reference;
 
     @ManyToMany
     @JoinTable(name = "adm_filter_parameter", joinColumns = @JoinColumn(name = "filter"), inverseJoinColumns = @JoinColumn(name = "parameter"))
@@ -72,6 +74,24 @@ public class AdmFilter implements Serializable {
     public void setParameters(Set<AdmParameter> parameters) {
         this.parameters = parameters;
     }
+
+    public String getHeader() {
+        return header;
+    }
+
+    public void setHeader(String header) {
+        this.header = header;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+
+    
 
     
 
