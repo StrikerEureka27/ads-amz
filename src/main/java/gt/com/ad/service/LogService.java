@@ -3,17 +3,17 @@ package gt.com.ad.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import gt.com.ad.data.AdsLog;
-import gt.com.ad.data.IAdslogDao;
+import gt.com.ad.data.ILogDao;
+import gt.com.ad.data.Log;
 
 @Service
-public class AdsLogService implements IAdsLog{
+public class LogService implements ILogService{
 
     @Autowired
-    IAdslogDao adslog;
+    ILogDao adslog;
 
     @Override
-    public Iterable<AdsLog> getAllLogs() {
+    public Iterable<Log> getAllLogs() {
         return adslog.findAll();
     }
     

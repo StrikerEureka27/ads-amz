@@ -15,22 +15,22 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellReference;
-import org.springframework.stereotype.Component;
-import gt.com.ad.data.Adsfile;
+import gt.com.ad.data.KrnRepository;
+
 import java.io.ByteArrayOutputStream;
 
-@Component
+
 public class MyRouteBuilder extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        from("jpa://gt.com.ad.data.Adsfile?consumeDelete=false&nativeQuery=select * from repository where step = 1")
+        from("jpa://gt.com.ad.data.KrnRepository?consumeDelete=false&nativeQuery=select * from krn_repository where step = 1")
                 .routeId("xlsx")
                 .process(new Processor() {
                     @Override
                     public void process(Exchange exchange) throws Exception {
 
-                        Adsfile f = exchange.getIn().getBody(Adsfile.class);
+                        KrnRepository f = exchange.getIn().getBody(KrnRepository.class);
                         File tmp = File.createTempFile(f.getName(), ".xlsx");
                         FileOutputStream fos = new FileOutputStream(tmp);
 

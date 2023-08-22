@@ -1,5 +1,6 @@
 package gt.com.ad.data;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,7 +19,7 @@ import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name = "krn_repository")
-public class KrnRepository {
+public class KrnRepository implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,8 +37,9 @@ public class KrnRepository {
     private int step;
 
     @ManyToMany
-    @JoinTable(name = "adm_repository_filter", joinColumns = @JoinColumn(name = "repository"), inverseJoinColumns = @JoinColumn(name = "account"))
-    private Set<AdmFilter> filters = new HashSet<>();
+    @JoinTable(name = "adm_account_repository", joinColumns = @JoinColumn(name = "account"), inverseJoinColumns = @JoinColumn(name = "repository"))
+    private Set<AdmAccount> accounts = new HashSet<>();
+
 
     public int getId() {
         return id;
@@ -87,13 +89,16 @@ public class KrnRepository {
         this.step = step;
     }
 
-    public Set<AdmFilter> getFilters() {
-        return filters;
+    public Set<AdmAccount> getAccounts() {
+        return accounts;
     }
 
-    public void setFilters(Set<AdmFilter> filters) {
-        this.filters = filters;
+    public void setAccounts(Set<AdmAccount> accounts) {
+        this.accounts = accounts;
     }
+
+    
+    
 
     
 
