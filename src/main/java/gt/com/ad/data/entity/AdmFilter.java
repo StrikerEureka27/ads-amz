@@ -1,5 +1,4 @@
-package gt.com.ad.data;
-
+package gt.com.ad.data.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -18,28 +17,23 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 @Entity
-@Table(name = "krn_repository")
-public class KrnRepository implements Serializable {
+@Table(name = "adm_filter")
+public class AdmFilter implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String name;
-    @Column(name = "processed")
-    private boolean isProcessed;
-
     @Column(name = "created_at", insertable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
-    @Column(name = "file", columnDefinition = "BLOB")
-    private byte[] file;
-    private int step;
+    private boolean active;
+    private String header;
+    private String reference;
 
     @ManyToMany
-    @JoinTable(name = "adm_account_repository", joinColumns = @JoinColumn(name = "account"), inverseJoinColumns = @JoinColumn(name = "repository"))
-    private Set<AdmAccount> accounts = new HashSet<>();
-
+    @JoinTable(name = "adm_filter_parameter", joinColumns = @JoinColumn(name = "filter"), inverseJoinColumns = @JoinColumn(name = "parameter"))
+    Set<AdmParameter> parameters = new HashSet<>();
 
     public int getId() {
         return id;
@@ -57,14 +51,6 @@ public class KrnRepository implements Serializable {
         this.name = name;
     }
 
-    public boolean isProcessed() {
-        return isProcessed;
-    }
-
-    public void setProcessed(boolean isProcessed) {
-        this.isProcessed = isProcessed;
-    }
-
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -73,31 +59,38 @@ public class KrnRepository implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public byte[] getFile() {
-        return file;
+    public boolean isActive() {
+        return active;
     }
 
-    public void setFile(byte[] file) {
-        this.file = file;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
-    public int getStep() {
-        return step;
+    public Set<AdmParameter> getParameters() {
+        return parameters;
     }
 
-    public void setStep(int step) {
-        this.step = step;
+    public void setParameters(Set<AdmParameter> parameters) {
+        this.parameters = parameters;
     }
 
-    public Set<AdmAccount> getAccounts() {
-        return accounts;
+    public String getHeader() {
+        return header;
     }
 
-    public void setAccounts(Set<AdmAccount> accounts) {
-        this.accounts = accounts;
+    public void setHeader(String header) {
+        this.header = header;
     }
 
-    
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+
     
 
     

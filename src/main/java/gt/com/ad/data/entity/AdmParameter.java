@@ -1,4 +1,4 @@
-package gt.com.ad.data;
+package gt.com.ad.data.entity;
 
 import java.io.Serializable;
 
@@ -56,6 +56,16 @@ public class AdmParameter implements Serializable {
     public void setType(int type) {
         this.type = type;
     }
+
+    public AdmParameterType getParamterType() {
+        return paramterType;
+    }
+
+    public void setParamterType(AdmParameterType paramterType) {
+        this.paramterType = paramterType;
+    }
+
+    
     
 
 }

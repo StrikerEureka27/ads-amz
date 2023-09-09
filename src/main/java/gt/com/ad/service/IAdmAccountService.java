@@ -2,7 +2,7 @@ package gt.com.ad.service;
 
 import java.util.Optional;
 
-import gt.com.ad.data.AdmAccount;
+import gt.com.ad.data.entity.AdmAccount;
 
 public interface IAdmAccountService {
     public void saveAccount(AdmAccount account);

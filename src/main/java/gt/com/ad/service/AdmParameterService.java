@@ -5,8 +5,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import gt.com.ad.data.AdmParameter;
 import gt.com.ad.data.IAdmParameterDao;
+import gt.com.ad.data.entity.AdmParameter;
 
 
 @Service

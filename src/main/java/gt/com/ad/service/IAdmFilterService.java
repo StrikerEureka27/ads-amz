@@ -2,7 +2,7 @@ package gt.com.ad.service;
 
 import java.util.Optional;
 
-import gt.com.ad.data.AdmFilter;
+import gt.com.ad.data.entity.AdmFilter;
 
 public interface IAdmFilterService {
     public void saveFilter(AdmFilter filter);

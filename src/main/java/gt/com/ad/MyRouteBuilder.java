@@ -15,13 +15,16 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellReference;
-import gt.com.ad.data.KrnRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import gt.com.ad.data.entity.AdmAccount;
+import gt.com.ad.data.entity.KrnRepository;
+import gt.com.ad.service.AdmAccountService;
 
 import java.io.ByteArrayOutputStream;
 
 
 public class MyRouteBuilder extends RouteBuilder {
-
     @Override
     public void configure() throws Exception {
         from("jpa://gt.com.ad.data.KrnRepository?consumeDelete=false&nativeQuery=select * from krn_repository where step = 1")
@@ -31,6 +34,7 @@ public class MyRouteBuilder extends RouteBuilder {
                     public void process(Exchange exchange) throws Exception {
 
                         KrnRepository f = exchange.getIn().getBody(KrnRepository.class);
+
                         File tmp = File.createTempFile(f.getName(), ".xlsx");
                         FileOutputStream fos = new FileOutputStream(tmp);
 
@@ -87,7 +91,6 @@ public class MyRouteBuilder extends RouteBuilder {
 
 
                                 if (ref.formatAsString().substring(0, 2).equals("AH")) {
-
                                     if (cell.getStringCellValue().equals("loose-match")
                                             || cell.getStringCellValue().equals("close-match")
                                             || cell.getStringCellValue().equals("complements")
@@ -96,7 +99,6 @@ public class MyRouteBuilder extends RouteBuilder {
                                                             .equals("Product Targeting Expression")) {
                                         filterStepTwo.add(Integer.valueOf(cell.getRowIndex()));
                                     }
-
                                 }
 
                                 if (ref.formatAsString().substring(0, 2).equals("AO")) {

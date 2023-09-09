@@ -2,7 +2,7 @@ package gt.com.ad.service;
 
 import java.util.Optional;
 
-import gt.com.ad.data.AdmParameter;
+import gt.com.ad.data.entity.AdmParameter;
 
 public interface IAdmParameterService {
     public void saveParameter(AdmParameter parameter);

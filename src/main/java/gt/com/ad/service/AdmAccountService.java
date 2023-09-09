@@ -5,8 +5,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import gt.com.ad.data.AdmAccount;
 import gt.com.ad.data.IAdmAccount;
+import gt.com.ad.data.entity.AdmAccount;
 
 
 @Service

@@ -1,4 +1,4 @@
-package gt.com.ad.data;
+package gt.com.ad.data.entity;
 import java.io.Serializable;
 
 import jakarta.persistence.Entity;

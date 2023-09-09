@@ -1,8 +1,10 @@
-package gt.com.ad.data;
+package gt.com.ad.data.entity;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,8 +19,8 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 @Entity
-@Table(name = "adm_filter")
-public class AdmFilter implements Serializable {
+@Table(name = "adm_account")
+public class AdmAccount implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,13 +29,19 @@ public class AdmFilter implements Serializable {
     @Column(name = "created_at", insertable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
+    @Column(name = "created_by")
+    private String createdBy;
     private boolean active;
-    private String header;
-    private String reference;
 
     @ManyToMany
-    @JoinTable(name = "adm_filter_parameter", joinColumns = @JoinColumn(name = "filter"), inverseJoinColumns = @JoinColumn(name = "parameter"))
-    Set<AdmParameter> parameters = new HashSet<>();
+    @JoinTable(name = "adm_account_filter", joinColumns = @JoinColumn(name = "account"), inverseJoinColumns = @JoinColumn(name = "filter"))
+    Set<AdmFilter> filters = new HashSet<>();
+
+    // @JsonManagedReference
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(name = "adm_account_repository", joinColumns = @JoinColumn(name = "account"), inverseJoinColumns = @JoinColumn(name = "repository"))
+    Set<KrnRepository> repositories = new HashSet<>();
 
     public int getId() {
         return id;
@@ -59,6 +67,14 @@ public class AdmFilter implements Serializable {
         this.createdAt = createdAt;
     }
 
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
     public boolean isActive() {
         return active;
     }
@@ -67,32 +83,19 @@ public class AdmFilter implements Serializable {
         this.active = active;
     }
 
-    public Set<AdmParameter> getParameters() {
-        return parameters;
+    public Set<AdmFilter> getFilters() {
+        return filters;
     }
 
-    public void setParameters(Set<AdmParameter> parameters) {
-        this.parameters = parameters;
+    public void setFilters(Set<AdmFilter> filters) {
+        this.filters = filters;
     }
 
-    public String getHeader() {
-        return header;
+    public Set<KrnRepository> getRepositories() {
+        return repositories;
     }
 
-    public void setHeader(String header) {
-        this.header = header;
+    public void setRepositories(Set<KrnRepository> repositories) {
+        this.repositories = repositories;
     }
-
-    public String getReference() {
-        return reference;
-    }
-
-    public void setReference(String reference) {
-        this.reference = reference;
-    }
-
-    
-
-    
-
 }

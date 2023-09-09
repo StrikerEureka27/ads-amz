@@ -1,5 +1,7 @@
 package gt.com.ad.web;
 
+
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,11 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import gt.com.ad.data.AdmAccount;
-import gt.com.ad.data.AdmFilter;
-import gt.com.ad.data.AdmParameter;
-import gt.com.ad.data.KrnRepository;
-import gt.com.ad.data.Log;
+import gt.com.ad.Sender;
+import gt.com.ad.data.entity.AdmAccount;
+import gt.com.ad.data.entity.AdmFilter;
+import gt.com.ad.data.entity.AdmParameter;
+import gt.com.ad.data.entity.KrnRepository;
+import gt.com.ad.data.entity.Log;
 import gt.com.ad.service.AdmAccountService;
 import gt.com.ad.service.AdmFilterService;
 import gt.com.ad.service.AdmParameterService;
@@ -36,9 +39,6 @@ public class Controller {
     KrnRepositoryService adsamzservice;
 
     @Autowired
-    AdmAccountService accountservice;
-
-    @Autowired
     AdmFilterService filterservice;
 
     @Autowired
@@ -47,27 +47,8 @@ public class Controller {
     @Autowired
     LogService adsamzservicelog;
 
-    @GetMapping("/accounts")
-    public ResponseEntity<Iterable<AdmAccount>> getAllAccounts() {
-        return ResponseEntity.status(HttpStatus.OK).body(accountservice.getAllAccounts());
-    }
-
-    @GetMapping("/account/{id}")
-    public ResponseEntity<AdmAccount> getAccountById(@PathVariable int id) {
-        return ResponseEntity.status(HttpStatus.OK).body(accountservice.getAccountById(id).get());
-    }
-
-    @PostMapping("/account/create")
-    public ResponseEntity<AdmAccount> createAccount(@RequestBody AdmAccount account) {
-        accountservice.saveAccount(account);
-        return ResponseEntity.status(HttpStatus.OK).body(account);
-    }
-
-    @PutMapping("/account/{id}/update")
-    public ResponseEntity<AdmAccount> updateAccountById(@RequestBody AdmAccount account) {
-        accountservice.updateAccountById(account);
-        return ResponseEntity.status(HttpStatus.OK).body(account);
-    }
+    @Autowired
+    Sender sender;
 
     @GetMapping("/filters")
     public ResponseEntity<Iterable<AdmFilter>> getAllFilters() {
@@ -85,7 +66,7 @@ public class Controller {
         return ResponseEntity.status(HttpStatus.OK).body(filter);
     }
 
-    @PutMapping("/filter/{id}/update")
+    @PutMapping("/filter/update")
     public ResponseEntity<AdmFilter> updateFilterById(@RequestBody AdmFilter filter) {
         filterservice.updateFilterById(filter);
         return ResponseEntity.status(HttpStatus.OK).body(filter);
@@ -107,7 +88,7 @@ public class Controller {
         return ResponseEntity.status(HttpStatus.OK).body(parameter);
     }
 
-    @PutMapping("/parameters/{id}/update")
+    @PutMapping("/parameter/update")
     public ResponseEntity<AdmParameter> updateParameterById(@RequestBody AdmParameter parameter) {
         paramservice.saveParameter(parameter);
         return ResponseEntity.status(HttpStatus.OK).body(parameter);
@@ -122,8 +103,8 @@ public class Controller {
 
     @PostMapping("/file/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file,
-            @RequestParam("processed") boolean processed) {
-        String response = adsamzservice.saveAdsFile(file, processed);
+            @RequestParam("processed") boolean processed, @RequestParam("account") int accountId) {
+        String response = adsamzservice.saveAdsFile(file, processed, accountId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -158,6 +139,14 @@ public class Controller {
     @GetMapping("/logs")
     public Iterable<Log> getAllAdsLog() {
         return adsamzservicelog.getAllLogs();
+    }
+
+    @GetMapping("/rpc")
+    public String testrpc(){
+        JSONObject json = new JSONObject();
+        json.put("message", "Hello from rpc");
+        String response = sender.convertSendAndReceive(json.toString());
+        return response;
     }
 
 }

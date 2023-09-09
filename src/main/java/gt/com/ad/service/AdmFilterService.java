@@ -5,8 +5,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import gt.com.ad.data.AdmFilter;
 import gt.com.ad.data.IAdmFilter;
+import gt.com.ad.data.entity.AdmFilter;
 
 @Service
 public class AdmFilterService implements IAdmFilterService {

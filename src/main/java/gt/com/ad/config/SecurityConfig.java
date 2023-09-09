@@ -1,4 +1,4 @@
-package gt.com.ad.web;
+package gt.com.ad.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
