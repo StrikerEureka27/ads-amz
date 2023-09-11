@@ -40,11 +40,6 @@ public class KrnRepository implements Serializable {
     @Column(name = "account")
     private int accountId;
 
-    // @JsonBackReference
-    @ManyToMany
-    @JoinTable(name = "adm_account_repository", joinColumns = @JoinColumn(name = "account"), inverseJoinColumns = @JoinColumn(name = "repository"))
-    private Set<AdmAccount> accounts = new HashSet<>();
-
     @ManyToOne
     @JoinColumn(name = "id", insertable = false, updatable = false)
     private AdmAccount account;
@@ -95,14 +90,6 @@ public class KrnRepository implements Serializable {
 
     public void setStep(int step) {
         this.step = step;
-    }
-
-    public Set<AdmAccount> getAccounts() {
-        return accounts;
-    }
-
-    public void setAccounts(Set<AdmAccount> accounts) {
-        this.accounts = accounts;
     }
 
     public AdmAccount getAccount() {

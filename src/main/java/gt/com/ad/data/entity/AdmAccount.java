@@ -40,14 +40,9 @@ public class AdmAccount implements Serializable {
     @JoinTable(name = "adm_account_filter", joinColumns = @JoinColumn(name = "account"), inverseJoinColumns = @JoinColumn(name = "filter"))
     Set<AdmFilter> filters = new HashSet<>();
 
-     @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "adm_account_reference", joinColumns = @JoinColumn(name = "account"), inverseJoinColumns = @JoinColumn(name = "reference"))
     List<AdmReference> references = new ArrayList<AdmReference>();
-
-    @JsonIgnore
-    @ManyToMany
-    @JoinTable(name = "adm_account_repository", joinColumns = @JoinColumn(name = "account"), inverseJoinColumns = @JoinColumn(name = "repository"))
-    Set<KrnRepository> repositories = new HashSet<>();
 
     public int getId() {
         return id;
@@ -97,14 +92,6 @@ public class AdmAccount implements Serializable {
         this.filters = filters;
     }
 
-    public Set<KrnRepository> getRepositories() {
-        return repositories;
-    }
-
-    public void setRepositories(Set<KrnRepository> repositories) {
-        this.repositories = repositories;
-    }
-
     public List<AdmReference> getReferences() {
         return references;
     }
@@ -113,5 +100,4 @@ public class AdmAccount implements Serializable {
         this.references = references;
     }
 
-    
 }
