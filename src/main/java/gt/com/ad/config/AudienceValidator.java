@@ -1,4 +1,4 @@
-package gt.com.ad.web;
+package gt.com.ad.config;
 
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
