@@ -1,4 +1,4 @@
-package gt.com.ad;
+package gt.com.ad.service;
 
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

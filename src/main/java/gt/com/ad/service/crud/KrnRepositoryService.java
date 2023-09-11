@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import gt.com.ad.Sender;
 import gt.com.ad.data.IAdmAccountDao;
 import gt.com.ad.data.IKrnRepositoryDao;
 import gt.com.ad.data.ILogDao;
@@ -17,6 +16,7 @@ import gt.com.ad.data.entity.AdmAccount;
 import gt.com.ad.data.entity.KrnRepository;
 import gt.com.ad.data.entity.Log;
 import gt.com.ad.service.IKrnRepositoryService;
+import gt.com.ad.service.Sender;
 
 @Service
 public class KrnRepositoryService implements IKrnRepositoryService {

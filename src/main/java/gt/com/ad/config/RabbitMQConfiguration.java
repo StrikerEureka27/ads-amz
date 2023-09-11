@@ -5,7 +5,7 @@ import org.springframework.amqp.support.converter.SimpleMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import gt.com.ad.Sender;
+import gt.com.ad.service.Sender;
 
 
 

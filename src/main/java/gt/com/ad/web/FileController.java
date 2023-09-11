@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import gt.com.ad.Sender;
+
 import gt.com.ad.data.entity.KrnRepository;
 import gt.com.ad.data.entity.Log;
+import gt.com.ad.service.Sender;
 import gt.com.ad.service.crud.KrnRepositoryService;
 import gt.com.ad.service.crud.LogService;
 
