@@ -1,4 +1,6 @@
 package gt.com.ad.data.entity;
+import java.io.Serializable;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,17 +11,17 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "adm_filter_parameter")
-public class AdmFilterParameter {
+public class AdmFilterParameter implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "filter")
-    private AdmFilter filter;
+    private int filter;
 
     @Column(name = "parameter")
-    private AdmParameter parameter;
+    private int parameter;
 
     public int getId() {
         return id;
@@ -29,21 +31,23 @@ public class AdmFilterParameter {
         this.id = id;
     }
 
-    public AdmFilter getFilter() {
+    public int getFilter() {
         return filter;
     }
 
-    public void setFilter(AdmFilter filter) {
+    public void setFilter(int filter) {
         this.filter = filter;
     }
 
-    public AdmParameter getParameter() {
+    public int getParameter() {
         return parameter;
     }
 
-    public void setParameter(AdmParameter parameter) {
+    public void setParameter(int parameter) {
         this.parameter = parameter;
     }
+
+    
 
     
 

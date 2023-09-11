@@ -1,18 +1,19 @@
-package gt.com.ad.service;
+package gt.com.ad.service.crud;
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import gt.com.ad.data.IAdmFilter;
+import gt.com.ad.data.IAdmFilterDao;
 import gt.com.ad.data.entity.AdmFilter;
+import gt.com.ad.service.IAdmFilterService;
 
 @Service
 public class AdmFilterService implements IAdmFilterService {
 
     @Autowired
-    IAdmFilter filterdao;
+    IAdmFilterDao filterdao;
 
     @Override
     public void saveFilter(AdmFilter filter) {

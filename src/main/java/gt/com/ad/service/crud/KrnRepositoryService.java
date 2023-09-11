@@ -1,4 +1,4 @@
-package gt.com.ad.service;
+package gt.com.ad.service.crud;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -10,12 +10,13 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import gt.com.ad.Sender;
-import gt.com.ad.data.IAdmAccount;
+import gt.com.ad.data.IAdmAccountDao;
 import gt.com.ad.data.IKrnRepositoryDao;
 import gt.com.ad.data.ILogDao;
 import gt.com.ad.data.entity.AdmAccount;
 import gt.com.ad.data.entity.KrnRepository;
 import gt.com.ad.data.entity.Log;
+import gt.com.ad.service.IKrnRepositoryService;
 
 @Service
 public class KrnRepositoryService implements IKrnRepositoryService {
@@ -27,7 +28,7 @@ public class KrnRepositoryService implements IKrnRepositoryService {
     ILogDao adslog;
 
     @Autowired
-    IAdmAccount accountdao;
+    IAdmAccountDao accountdao;
 
     @Autowired
     Sender sender;

@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import gt.com.ad.data.entity.AdmAccount;
 import gt.com.ad.data.entity.KrnRepository;
-import gt.com.ad.service.AdmAccountService;
+import gt.com.ad.service.crud.AdmAccountService;
 
 import java.io.ByteArrayOutputStream;
 

@@ -1,19 +1,20 @@
-package gt.com.ad.service;
+package gt.com.ad.service.crud;
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import gt.com.ad.data.IAdmAccount;
+import gt.com.ad.data.IAdmAccountDao;
 import gt.com.ad.data.entity.AdmAccount;
+import gt.com.ad.service.IAdmAccountService;
 
 
 @Service
 public class AdmAccountService implements IAdmAccountService {
 
     @Autowired
-    IAdmAccount accountdao;
+    IAdmAccountDao accountdao;
 
     @Override
     public void saveAccount(AdmAccount account) {

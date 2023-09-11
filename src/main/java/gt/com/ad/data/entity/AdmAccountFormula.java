@@ -9,29 +9,32 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "adm_parameter_type")
-public class AdmParameterType implements Serializable {
+@Table(name = "adm_account_formula")
+public class AdmAccountFormula implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    private String name;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    private int account;
+    private int formula;
 
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
+    }
+    public int getAccount() {
+        return account;
+    }
+    public void setAccount(int account) {
+        this.account = account;
+    }
+    public int getFormula() {
+        return formula;
+    }
+    public void setFormula(int formula) {
+        this.formula = formula;
     }
 
 }

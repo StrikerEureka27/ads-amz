@@ -1,4 +1,4 @@
-package gt.com.ad.service;
+package gt.com.ad.service.crud;
 
 import java.util.Optional;
 
@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import gt.com.ad.data.IAdmParameterDao;
 import gt.com.ad.data.entity.AdmParameter;
+import gt.com.ad.service.IAdmParameterService;
 
 
 @Service

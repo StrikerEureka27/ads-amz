@@ -9,42 +9,44 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-
 @Entity
-@Table(name = "adm_account_filter")
-public class AdmAccountFilter implements Serializable{
-    
+@Table(name = "adm_account_reference")
+public class AdmAccountReference implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "account")
     private int account;
-    @Column(name = "filter")
-    private int filter;
-    
+
+    @Column(name = "reference")
+    private int reference;
+
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
+
     public int getAccount() {
         return account;
     }
+
     public void setAccount(int account) {
         this.account = account;
     }
-    public int getFilter() {
-        return filter;
+
+    public int getReference() {
+        return reference;
     }
-    public void setFilter(int filter) {
-        this.filter = filter;
+
+    public void setReference(int reference) {
+        this.reference = reference;
     }
-    
-    
 
     
-
 
 }

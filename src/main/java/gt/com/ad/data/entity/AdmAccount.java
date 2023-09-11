@@ -2,12 +2,15 @@ package gt.com.ad.data.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -37,7 +40,10 @@ public class AdmAccount implements Serializable {
     @JoinTable(name = "adm_account_filter", joinColumns = @JoinColumn(name = "account"), inverseJoinColumns = @JoinColumn(name = "filter"))
     Set<AdmFilter> filters = new HashSet<>();
 
-    // @JsonManagedReference
+     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "adm_account_reference", joinColumns = @JoinColumn(name = "account"), inverseJoinColumns = @JoinColumn(name = "reference"))
+    List<AdmReference> references = new ArrayList<AdmReference>();
+
     @JsonIgnore
     @ManyToMany
     @JoinTable(name = "adm_account_repository", joinColumns = @JoinColumn(name = "account"), inverseJoinColumns = @JoinColumn(name = "repository"))
@@ -98,4 +104,14 @@ public class AdmAccount implements Serializable {
     public void setRepositories(Set<KrnRepository> repositories) {
         this.repositories = repositories;
     }
+
+    public List<AdmReference> getReferences() {
+        return references;
+    }
+
+    public void setReferences(List<AdmReference> references) {
+        this.references = references;
+    }
+
+    
 }

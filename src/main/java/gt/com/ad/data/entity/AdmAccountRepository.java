@@ -1,5 +1,7 @@
 package gt.com.ad.data.entity;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,7 +11,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "adm_account_repository")
-public class AdmAccountRepository {
+public class AdmAccountRepository implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

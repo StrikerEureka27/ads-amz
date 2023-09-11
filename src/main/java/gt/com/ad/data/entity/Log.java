@@ -1,4 +1,5 @@
 package gt.com.ad.data.entity;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -15,7 +16,7 @@ import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name = "log_log")
-public class Log {
+public class Log implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
