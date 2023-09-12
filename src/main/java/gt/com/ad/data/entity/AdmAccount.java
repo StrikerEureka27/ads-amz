@@ -35,6 +35,7 @@ public class AdmAccount implements Serializable {
     @Column(name = "created_by")
     private String createdBy;
     private boolean active;
+    private int sheet;
 
     @ManyToMany
     @JoinTable(name = "adm_account_filter", joinColumns = @JoinColumn(name = "account"), inverseJoinColumns = @JoinColumn(name = "filter"))
@@ -99,5 +100,15 @@ public class AdmAccount implements Serializable {
     public void setReferences(List<AdmReference> references) {
         this.references = references;
     }
+
+    public int getSheet() {
+        return sheet;
+    }
+
+    public void setSheet(int sheet) {
+        this.sheet = sheet;
+    }
+
+    
 
 }

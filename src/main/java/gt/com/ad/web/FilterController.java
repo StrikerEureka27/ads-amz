@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import gt.com.ad.data.AdmFilterType;
 import gt.com.ad.data.entity.AdmFilter;
 import gt.com.ad.data.entity.AdmFilterParameter;
 import gt.com.ad.service.crud.AdmFilterParameterService;
 import gt.com.ad.service.crud.AdmFilterService;
+import gt.com.ad.service.crud.AdmFilterTypeService;
 
 @RestController
 @CrossOrigin("*")
@@ -26,6 +29,9 @@ public class FilterController {
 
     @Autowired
     AdmFilterParameterService filterparameterservice;
+
+    @Autowired
+    AdmFilterTypeService filtertypeservice;
 
     @GetMapping("/all")
     public ResponseEntity<Iterable<AdmFilter>> getAllFilters() {
@@ -47,6 +53,11 @@ public class FilterController {
     public ResponseEntity<AdmFilter> updateFilterById(@RequestBody AdmFilter filter) {
         filterservice.updateFilterById(filter);
         return ResponseEntity.status(HttpStatus.OK).body(filter);
+    }
+
+    @GetMapping("/types")
+     public ResponseEntity<Iterable<AdmFilterType>> getAllFilterTypes() {
+        return ResponseEntity.status(HttpStatus.OK).body(filtertypeservice.getAllFilterTypes());
     }
 
     // parameters relationship
