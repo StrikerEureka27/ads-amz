@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import gt.com.ad.data.AdmFilterType;
 import gt.com.ad.data.entity.AdmFilter;
 import gt.com.ad.data.entity.AdmFilterParameter;
+import gt.com.ad.data.entity.AdmFilterType;
 import gt.com.ad.service.crud.AdmFilterParameterService;
 import gt.com.ad.service.crud.AdmFilterService;
 import gt.com.ad.service.crud.AdmFilterTypeService;

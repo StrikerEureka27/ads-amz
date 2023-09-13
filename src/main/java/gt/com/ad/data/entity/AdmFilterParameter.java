@@ -1,6 +1,7 @@
 package gt.com.ad.data.entity;
 import java.io.Serializable;
 
+import java.io.Serializable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

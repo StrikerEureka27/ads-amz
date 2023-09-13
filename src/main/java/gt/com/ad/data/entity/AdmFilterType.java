@@ -1,19 +1,21 @@
-package gt.com.ad.data;
+package gt.com.ad.data.entity;
 
+
+import java.io.Serializable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity(name = "adm_filter_type")
-public class AdmFilterType {
+public class AdmFilterType implements Serializable{
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String name;
 
-    public int getId() {
+     public int getId() {
         return id;
     }
 
@@ -28,8 +30,5 @@ public class AdmFilterType {
     public void setName(String name) {
         this.name = name;
     }
-
-    
-
 
 }

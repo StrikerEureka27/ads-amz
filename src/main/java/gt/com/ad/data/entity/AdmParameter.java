@@ -22,7 +22,7 @@ public class AdmParameter implements Serializable {
     private int type;
 
     @ManyToOne
-    @JoinColumn(name = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "type", insertable = false, updatable = false)
     private AdmParameterType paramterType;
 
     public int getId() {

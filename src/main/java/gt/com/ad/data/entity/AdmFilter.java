@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-import gt.com.ad.data.AdmFilterType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -33,10 +33,11 @@ public class AdmFilter implements Serializable {
     private String header;
     private String reference;
     private int level;
+    private int type;
 
     @ManyToOne
-    @JoinColumn(name = "id", insertable = false, updatable = false)
-    private AdmFilterType type;
+    @JoinColumn(name = "type", insertable = false, updatable = false)
+    private AdmFilterType filterType;
 
     @ManyToMany
     @JoinTable(name = "adm_filter_parameter", joinColumns = @JoinColumn(name = "filter"), inverseJoinColumns = @JoinColumn(name = "parameter"))
@@ -74,14 +75,6 @@ public class AdmFilter implements Serializable {
         this.active = active;
     }
 
-    public Set<AdmParameter> getParameters() {
-        return parameters;
-    }
-
-    public void setParameters(Set<AdmParameter> parameters) {
-        this.parameters = parameters;
-    }
-
     public String getHeader() {
         return header;
     }
@@ -106,14 +99,31 @@ public class AdmFilter implements Serializable {
         this.level = level;
     }
 
-    public AdmFilterType getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(AdmFilterType type) {
+    public void setType(int type) {
         this.type = type;
     }
 
+    public AdmFilterType getFilterType() {
+        return filterType;
+    }
+
+    public void setFilterType(AdmFilterType filterType) {
+        this.filterType = filterType;
+    }
+
+    public Set<AdmParameter> getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(Set<AdmParameter> parameters) {
+        this.parameters = parameters;
+    }
+
+    
     
     
 
