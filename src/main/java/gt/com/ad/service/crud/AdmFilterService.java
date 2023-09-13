@@ -34,5 +34,10 @@ public class AdmFilterService implements IAdmFilterService {
     public void updateFilterById(AdmFilter filter) {
         filterdao.save(filter);
     }
+
+    @Override
+    public void deleteFilterById(int filterId) {
+        filterdao.deleteById(filterId);
+    }
     
 }

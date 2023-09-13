@@ -9,4 +9,5 @@ public interface IAdmFilterService {
     public Iterable<AdmFilter> getAllFilters();
     public Optional<AdmFilter> getFilterId(int id);
     public void updateFilterById(AdmFilter filter);
+    public void deleteFilterById(int filterId);
 }

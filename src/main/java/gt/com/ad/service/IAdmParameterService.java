@@ -9,4 +9,5 @@ public interface IAdmParameterService {
     public Iterable<AdmParameter> getAllParameters();
     public Optional<AdmParameter> getParameterId(int id);
     public void updateParameterById(AdmParameter parameter);
+    public void deleteParameterById(int parameterId);
 }

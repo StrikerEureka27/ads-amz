@@ -35,5 +35,10 @@ public class AdmParameterService implements IAdmParameterService {
     public void updateParameterById(AdmParameter parameter) {
         parameterdao.save(parameter);
     }
+
+    @Override
+    public void deleteParameterById(int parameterId) {
+        parameterdao.deleteById(parameterId);
+    }
     
 }
