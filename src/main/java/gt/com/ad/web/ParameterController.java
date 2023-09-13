@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import gt.com.ad.data.entity.AdmParameter;
+import gt.com.ad.data.entity.AdmParameterType;
 import gt.com.ad.service.crud.AdmParameterService;
+import gt.com.ad.service.crud.AdmParameterTypeService;
 
 @RestController
 @CrossOrigin("*")
@@ -24,9 +26,17 @@ public class ParameterController {
     @Autowired
     AdmParameterService paramaterservice;
 
+    @Autowired
+    AdmParameterTypeService parametertypeservice;
+
     @GetMapping("/all")
     public ResponseEntity<Iterable<AdmParameter>> getAllParams() {
        return ResponseEntity.status(HttpStatus.OK).body(paramaterservice.getAllParameters());
+    }
+
+    @GetMapping("/types")
+    public ResponseEntity<Iterable<AdmParameterType>> getAllParameterTypes() {
+       return ResponseEntity.status(HttpStatus.OK).body(parametertypeservice.getAllParamterTypes());
     }
 
     @GetMapping("/{filterId}")
