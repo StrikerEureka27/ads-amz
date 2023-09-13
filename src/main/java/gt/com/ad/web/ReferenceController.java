@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import gt.com.ad.data.entity.AdmReference;
+import gt.com.ad.data.entity.AdmReferenceType;
 import gt.com.ad.service.crud.AdmReferenceService;
+import gt.com.ad.service.crud.AdmReferenceTypeService;
 
 @RestController
 @CrossOrigin("*")
@@ -24,9 +26,17 @@ public class ReferenceController {
     @Autowired
     AdmReferenceService referenceservice;
 
+    @Autowired
+    AdmReferenceTypeService referencetypeservice;
+
     @GetMapping("/all")
     public ResponseEntity<Iterable<AdmReference>> getAllReference() {
         return ResponseEntity.status(HttpStatus.OK).body(referenceservice.getAllReference());
+    }
+
+    @GetMapping("/types")
+    public ResponseEntity<Iterable<AdmReferenceType>> getAllReferenceTypes() {
+        return ResponseEntity.status(HttpStatus.OK).body(referencetypeservice.getAllReferenceTypes());
     }
 
     @GetMapping("/{referenceId}")
