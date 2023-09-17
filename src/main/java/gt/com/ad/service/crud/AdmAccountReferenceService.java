@@ -28,6 +28,11 @@ public class AdmAccountReferenceService implements IAdmAccountReferenceService {
         accountreferencedao.saveAll(accountReferences);
     }
 
+    @Override
+    public void deleteAccountReferences(int accountReferencesId) {
+        accountreferencedao.deleteById(accountReferencesId);
+    }
+
 
     
 }

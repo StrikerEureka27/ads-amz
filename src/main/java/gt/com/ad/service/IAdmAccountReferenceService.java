@@ -6,4 +6,5 @@ public interface IAdmAccountReferenceService {
     public Iterable<AdmAccountReference> getAccountReferences();
     public Iterable<AdmAccountReference> getAccountReferenceByAccount(int id);
     public void createAccountReferences(Iterable<AdmAccountReference> accountReferences);
+    public void deleteAccountReferences(int accountReferencesId);
 }
