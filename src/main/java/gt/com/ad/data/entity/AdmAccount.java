@@ -45,6 +45,10 @@ public class AdmAccount implements Serializable {
     @JoinTable(name = "adm_account_reference", joinColumns = @JoinColumn(name = "account"), inverseJoinColumns = @JoinColumn(name = "reference"))
     List<AdmReference> references = new ArrayList<AdmReference>();
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "adm_account_formula", joinColumns = @JoinColumn(name = "account"), inverseJoinColumns = @JoinColumn(name = "formula"))
+    List<AdmFormula> formulas = new ArrayList<AdmFormula>();
+
     public int getId() {
         return id;
     }
@@ -108,6 +112,16 @@ public class AdmAccount implements Serializable {
     public void setSheet(int sheet) {
         this.sheet = sheet;
     }
+
+    public List<AdmFormula> getFormulas() {
+        return formulas;
+    }
+
+    public void setFormulas(List<AdmFormula> formulas) {
+        this.formulas = formulas;
+    }
+
+    
 
     
 

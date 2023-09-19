@@ -29,4 +29,9 @@ public class AdmFilterParameterService implements IAdmFilterParameterService {
         filterparameterdao.saveAll(filterParameters);
     }
 
+    @Override
+    public void deleteFilterParameters(int filterParameterId) {
+        filterparameterdao.deleteById(filterParameterId);
+    }
+
 }

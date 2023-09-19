@@ -27,5 +27,10 @@ public class AdmAccountFormulaService implements IAdmAccountFormulaService {
     public void createAccountFormulas(Iterable<AdmAccountFormula> accountFormulas) {
         accountformuladao.saveAll(accountFormulas);
     }
+
+    @Override
+    public void deleteAccountFormulas(int accountFormulasId) {
+        accountformuladao.deleteById(accountFormulasId);
+    }
     
 }

@@ -92,4 +92,10 @@ public class FilterController {
         return ResponseEntity.status(HttpStatus.OK).body(filterParameters);
     }
 
+    @DeleteMapping("parameter/{filterParameterId}/delete")
+    public ResponseEntity<String> updateFilterParamter(@PathVariable int filterParameterId) {
+        filterparameterservice.deleteFilterParameters(filterParameterId);
+        return ResponseEntity.status(HttpStatus.OK).body("done");
+    }
+
 }

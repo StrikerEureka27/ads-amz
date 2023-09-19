@@ -28,4 +28,9 @@ public class AdmAccountFilterService implements IAdmAccountFilterService {
         accountfilterdao.saveAll(accountFilters);
     }
 
+    @Override
+    public void deleteAccountFilters(int accountFilterId) {
+        accountfilterdao.deleteById(accountFilterId);
+    }
+
 }

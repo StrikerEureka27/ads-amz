@@ -116,6 +116,12 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.OK).body(accountFilters);
     }
 
+    @DeleteMapping("/filter/{accountFiltersId}/delete")
+    public ResponseEntity<String> deleteAccountFilter(@PathVariable int accountFiltersId) {
+        accountfilterservice.deleteAccountFilters(accountFiltersId);
+        return ResponseEntity.status(HttpStatus.OK).body("done");
+    }
+
     // formula relationship
 
     @GetMapping("/formula")
