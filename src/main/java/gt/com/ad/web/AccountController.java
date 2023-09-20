@@ -74,13 +74,15 @@ public class AccountController {
     }
 
     @PostMapping("/reference/create")
-    public ResponseEntity<Iterable<AdmAccountReference>> createAccountReferences(@RequestBody Iterable<AdmAccountReference> accountReferences) {
+    public ResponseEntity<Iterable<AdmAccountReference>> createAccountReferences(
+            @RequestBody Iterable<AdmAccountReference> accountReferences) {
         accountreferenceservice.createAccountReferences(accountReferences);
         return ResponseEntity.status(HttpStatus.OK).body(accountReferences);
     }
 
     @PutMapping("/reference/update")
-    public ResponseEntity<Iterable<AdmAccountReference>> updateAccountReferences(@RequestBody Iterable<AdmAccountReference> accountReferences) {
+    public ResponseEntity<Iterable<AdmAccountReference>> updateAccountReferences(
+            @RequestBody Iterable<AdmAccountReference> accountReferences) {
         accountreferenceservice.createAccountReferences(accountReferences);
         return ResponseEntity.status(HttpStatus.OK).body(accountReferences);
     }
@@ -105,13 +107,15 @@ public class AccountController {
     }
 
     @PostMapping("/filter/create")
-    public ResponseEntity<Iterable<AdmAccountFilter>> createAccountFilter(@RequestBody Iterable<AdmAccountFilter> accountFilters) {
+    public ResponseEntity<Iterable<AdmAccountFilter>> createAccountFilter(
+            @RequestBody Iterable<AdmAccountFilter> accountFilters) {
         accountfilterservice.createAccountFilters(accountFilters);
         return ResponseEntity.status(HttpStatus.OK).body(accountFilters);
     }
 
     @PutMapping("/filter/update")
-    public ResponseEntity<Iterable<AdmAccountFilter>> updateAccountFilter(@RequestBody Iterable<AdmAccountFilter> accountFilters) {
+    public ResponseEntity<Iterable<AdmAccountFilter>> updateAccountFilter(
+            @RequestBody Iterable<AdmAccountFilter> accountFilters) {
         accountfilterservice.createAccountFilters(accountFilters);
         return ResponseEntity.status(HttpStatus.OK).body(accountFilters);
     }
@@ -136,19 +140,23 @@ public class AccountController {
     }
 
     @PostMapping("/formula/create")
-    public ResponseEntity<Iterable<AdmAccountFormula>> createAccountFormula(@RequestBody Iterable<AdmAccountFormula> accountFilters) {
+    public ResponseEntity<Iterable<AdmAccountFormula>> createAccountFormula(
+            @RequestBody Iterable<AdmAccountFormula> accountFilters) {
         accountformulaservice.createAccountFormulas(accountFilters);
         return ResponseEntity.status(HttpStatus.OK).body(accountFilters);
     }
 
     @PutMapping("/formula/update")
-    public ResponseEntity<Iterable<AdmAccountFormula>> updateAccountFormula(@RequestBody Iterable<AdmAccountFormula> accountFormulas) {
+    public ResponseEntity<Iterable<AdmAccountFormula>> updateAccountFormula(
+            @RequestBody Iterable<AdmAccountFormula> accountFormulas) {
         accountformulaservice.createAccountFormulas(accountFormulas);
         return ResponseEntity.status(HttpStatus.OK).body(accountFormulas);
     }
 
+    @DeleteMapping("/formula/{accountFormulasId}/delete")
+    public ResponseEntity<String> deleteAccountFormula(@PathVariable int accountFormulasId) {
+        accountformulaservice.deleteAccountFormulas(accountFormulasId);
+        return ResponseEntity.status(HttpStatus.OK).body("done");
+    }
     
-
-
-
 }
